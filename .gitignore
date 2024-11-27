@@ -76,8 +76,8 @@ crashlytics-build.properties
 Assets/Firebase/Plugins/x86_64/FirebaseCppApp-12_4_1.bundle
 Assets/Firebase/Plugins/x86_64/FirebaseCppApp-12_4_1.so
 Assets/Firebase/
-Adaptive Performance/
-Editor Default Resources/
-ExternalDependencyManager/
-GeneratedLocalRepo/
+Assets/Adaptive Performance/
+Assets/Editor Default Resources/
+Assets/ExternalDependencyManager/
+Assets/GeneratedLocalRepo/
 ``

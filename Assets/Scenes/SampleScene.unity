@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 599d541c35310d04482145c1e77d0d60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MonsterPrefabsArray:
+  enemyPrefabsArray:
   - {fileID: 7997236345592181297, guid: a532531bf631bf7438f1e064fe8f4fbc, type: 3}
   - {fileID: 1352860518001478146, guid: 5c13fdb4f0ee8fc439e0440d44d71d2c, type: 3}
 --- !u!4 &279563262

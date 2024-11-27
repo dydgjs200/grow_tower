@@ -4,11 +4,11 @@ public class EnemyFactory
 {
     public static GameObject CreateEnemy(int EnemyID, Transform SpwanPoint)
     {
-        GameObject prefab = MonsterDataManager.Instance.GetMonsterPrefab(EnemyID);
+        GameObject prefab = EnemyDataManager.Instance.GetEnemyPrefab(EnemyID);
 
         if (prefab == null) return null;
 
-        MonsterInfo info = MonsterDataManager.Instance.GetMonsterInfo(EnemyID);
+        EnemyInfo info = EnemyDataManager.Instance.GetEnemyInfo(EnemyID);
 
         if (info == null) return null;
 

@@ -1,0 +1,24 @@
+{
+  "enemies": [
+    {
+      "ID": 0,
+      "Name": "돌격자",
+      "Melee": true,
+      "HP": 100,
+      "Damage": 1,
+      "Armor": 1,
+      "Magic_resist": 0,
+      "Speed": 0
+    },
+    {
+      "ID": 1,
+      "Name": "사수",
+      "Melee": false,
+      "HP": 80,
+      "Damage": 3,
+      "Armor": 0,
+      "Magic_resist": 0,
+      "Speed": 3
+    }
+  ]
+}

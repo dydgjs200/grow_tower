@@ -32,7 +32,7 @@ public class EnemyController : MonoBehaviour
         MoveEnemy();
     }
 
-    public virtual void InitializeEnemy(MonsterInfo info)
+    public virtual void InitializeEnemy(EnemyInfo info)
     {
         if (info == null)
             return;
@@ -45,8 +45,6 @@ public class EnemyController : MonoBehaviour
         Armor = info.Armor;
         Magic_resist = info.Magic_resist;
         Speed = info.Speed;
-
-        Debug.Log($"{Name}이(가) 초기화되었습니다!");
     }
 
     void MoveEnemy()

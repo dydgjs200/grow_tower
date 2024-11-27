@@ -1,0 +1,13 @@
+{
+  "players": {
+    "0": {
+      "ID": "abc",
+      "JOB": "Rapidshot",
+      "HP": 100,
+      "Damage": 5,
+      "Armor": 3,
+      "Magic_resist": 0,
+      "Attack_Speed": 1
+    }
+  }
+}
