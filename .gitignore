@@ -59,6 +59,7 @@ sysinfo.txt
 *.apk
 *.aab
 *.unitypackage
+*.unitypackage.meta
 *.app
 
 # Crashlytics generated file
@@ -70,3 +71,8 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Firebase Plugins 제외
+Assets/Firebase/Plugins/x86_64/FirebaseCppApp-12_4_1.bundle
+Assets/Firebase/Plugins/x86_64/FirebaseCppApp-12_4_1.so
+``
