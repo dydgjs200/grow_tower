@@ -15,7 +15,7 @@ public class EnemySpwanController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        EnemySpwan(Random.Range(0,2));
+        EnemySpwan(Random.Range(0,EnemyDataManager.Instance.enemyPrefabsArray.Length));
     }
 
     public void EnemySpwan(int EnemyID)

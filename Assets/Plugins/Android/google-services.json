@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "379433194927",
+    "firebase_url": "https://grow-tower-default-rtdb.firebaseio.com",
+    "project_id": "grow-tower",
+    "storage_bucket": "grow-tower.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:379433194927:android:4ed492246848bf59a7cb5a",
+        "android_client_info": {
+          "package_name": "com.DefaultCompany.com.unity.template.mobile2D"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzNeNvdr15TfoeGB0aU1ikf3AlIMiAjAw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
