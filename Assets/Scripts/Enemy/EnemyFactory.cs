@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class EnemyFactory
 {
-    public static GameObject CreateEnemy(int EnemyID, Transform SpwanPoint)
+    public static GameObject CreateEnemy(string key, Transform SpwanPoint)
     {
-        GameObject prefab = EnemyDataManager.Instance.GetEnemyPrefab(EnemyID);
+        GameObject prefab = EnemyDataManager.Instance.GetEnemyPrefab(key);
 
         if (prefab == null) return null;
 
-        EnemyInfo info = EnemyDataManager.Instance.GetEnemyInfo(EnemyID);
+        EnemyInfo info = EnemyDataManager.Instance.GetEnemyInfo(key);
 
         if (info == null) return null;
 

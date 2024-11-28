@@ -7,9 +7,8 @@ public class EnemyController : MonoBehaviour
     public Transform target;
     public Rigidbody2D rg2D;
 
-    // Monster Info
+    // Enemy Info
     public int ID;
-    public string Name;
     public bool Melee;
     public float HP;
     public float Damage;
@@ -38,7 +37,6 @@ public class EnemyController : MonoBehaviour
             return;
 
         ID = info.ID;
-        Name = info.Name;
         Melee = info.Melee;
         HP = info.HP;
         Damage = info.Damage;
