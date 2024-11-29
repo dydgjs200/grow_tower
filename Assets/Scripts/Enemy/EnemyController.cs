@@ -2,13 +2,12 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    public float moveSpeed;
     public GameObject player;
     public Transform target;
     public Rigidbody2D rg2D;
 
     // Enemy Info
-    public int ID;
+    public string Name;
     public bool Melee;
     public float HP;
     public float Damage;
@@ -19,7 +18,6 @@ public class EnemyController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        moveSpeed = 5.0f;
         player = GameObject.FindWithTag("Player");
         rg2D = GetComponent<Rigidbody2D>();
         target = player.transform;
@@ -36,7 +34,7 @@ public class EnemyController : MonoBehaviour
         if (info == null)
             return;
 
-        ID = info.ID;
+        Name = info.Name;
         Melee = info.Melee;
         HP = info.HP;
         Damage = info.Damage;
@@ -56,7 +54,7 @@ public class EnemyController : MonoBehaviour
             Vector3 dir = (target.position - transform.position).normalized;
 
             // Rigidbody를 사용해 이동
-            rg2D.MovePosition(transform.position + dir * moveSpeed * Time.deltaTime);
+            rg2D.MovePosition(transform.position + dir * Speed * Time.deltaTime);
         }
     }
 

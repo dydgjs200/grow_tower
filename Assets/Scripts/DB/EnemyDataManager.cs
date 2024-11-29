@@ -1,55 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using Firebase;
-using Firebase.Database;
-using Firebase.Extensions;
 using UnityEngine;
-using UnityEngine.Networking;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
-
 
 [System.Serializable]
 public class EnemyDataManager : MonoBehaviour
 {
     public static EnemyDataManager Instance { get; private set; }
-    private DatabaseReference databaseReference;
-    public Dictionary<string, EnemyInfo> FireBaseDict = new Dictionary<string, EnemyInfo>();
-    public Dictionary<string, GameObject> enemyPrefabs = new Dictionary<string, GameObject>();
+    public Dictionary<int, EnemyInfo> LocalDict = new Dictionary<int, EnemyInfo>();
+    public Dictionary<int, GameObject> enemyPrefabs = new Dictionary<int, GameObject>();
 
     public GameObject[] enemyPrefabsArray;
 
-    private async void Awake()
+    private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
 
-            var dependencyTask = await FirebaseApp.CheckAndFixDependenciesAsync();
-
-            if (dependencyTask == DependencyStatus.Available)
+            // 로컬 데이터를 읽고 Prefab 초기화
+            LoadLocalEnemyData().ContinueWith(_ =>
             {
-                databaseReference = FirebaseDatabase.DefaultInstance.RootReference;
-
-                try
-                {
-                    await LoadFireBaseEnemyData();
-                    await SaveFirebaseDataToLocalJson();
-                    await InitializedPrefabs();
-
-                    Debug.Log("Enemy Prefab 초기화 완료");
-                }
-                catch (System.Exception ex)
-                {
-                    Debug.LogError($"Firebase 데이터 로드 또는 처리 실패: {ex.Message}");
-                }
-            }
-            else
-            {
-                Debug.LogError($"Firebase 초기화 실패: {dependencyTask}");
-            }
+                InitializedPrefabs();
+                Debug.Log("Enemy Prefab 초기화 완료");
+            });
         }
         else
         {
@@ -57,86 +34,73 @@ public class EnemyDataManager : MonoBehaviour
         }
     }
 
-
-
-    private void Start()
-    {
-
-    }
-
-    private async Task LoadFireBaseEnemyData()
+    private async Task LoadLocalEnemyData()
     {
         try
         {
-            var dataSnapshot = await databaseReference.Child("enemies").GetValueAsync();
-
-            if (dataSnapshot.Exists)
-            {
-                string rawJson = dataSnapshot.GetRawJsonValue();
-                var enemies = JsonConvert.DeserializeObject<Dictionary<string, EnemyInfo>>(rawJson);
-
-                foreach (var enemy in enemies)
-                {
-                    FireBaseDict.Add(enemy.Key, enemy.Value);
-                    Debug.Log($"Enemy Name: {enemy.Key}, Data: {JsonConvert.SerializeObject(enemy.Value)}");
-                }
-            }
-        }
-        catch (System.Exception ex)
-        {
-            throw;
-        }
-    }
-
-    private async Task SaveFirebaseDataToLocalJson()
-    {
-        try
-        {
+            Debug.Log("로컬 JSON 데이터를 읽습니다...");
             string jsonFilePath = Path.Combine(Application.persistentDataPath, "grow_tower_enemies.json");
 
-            // Dictionary 데이터를 JSON으로 직렬화
-            string json = JsonConvert.SerializeObject(FireBaseDict, Formatting.Indented);
+            if (!File.Exists(jsonFilePath))
+            {
+                Debug.LogWarning($"로컬 JSON 파일이 존재하지 않습니다: {jsonFilePath}");
+                return;
+            }
 
-            // 파일로 저장
-            await Task.Run(() => File.WriteAllText(jsonFilePath, json));
+            string json = await Task.Run(() => File.ReadAllText(jsonFilePath));
+            Debug.Log($"로컬 JSON 데이터: {json}");
 
-            Debug.Log($"Firebase 데이터를 로컬 JSON 파일로 저장 완료: {jsonFilePath}");
+            // JSON 데이터를 Dictionary<int, EnemyInfo>로 역직렬화
+            LocalDict = JsonConvert.DeserializeObject<Dictionary<int, EnemyInfo>>(json);
+
+            Debug.Log($"로컬 JSON에서 {LocalDict.Count}개의 적 데이터를 로드했습니다.");
         }
         catch (System.Exception ex)
         {
-            throw;
+            Debug.LogError($"로컬 JSON 데이터 로드 실패: {ex.Message}");
         }
     }
 
-
-    private async Task InitializedPrefabs()
+    private void InitializedPrefabs()
     {
+        if (LocalDict.Count == 0)
+        {
+            Debug.LogWarning("로컬 데이터가 비어 있어 Prefab 초기화를 건너뜁니다.");
+            return;
+        }
+
         int count = 0;
 
-        foreach (var enemy in FireBaseDict)
+        foreach (var enemy in LocalDict)
         {
             enemyPrefabs.Add(enemy.Key, enemyPrefabsArray[count]);
             count++;
         }
     }
 
-    public GameObject GetEnemyPrefab(string key)
+    public GameObject GetEnemyPrefab(int id)
     {
-        if (enemyPrefabs.ContainsKey(key))
+        if (enemyPrefabs.ContainsKey(id))
         {
-            return enemyPrefabs[key];
+            return enemyPrefabs[id];
         }
         else
+        {
+            Debug.LogWarning($"ID {id}에 해당하는 Prefab이 없습니다.");
             return null;
+        }
     }
 
-    public EnemyInfo GetEnemyInfo(string key)
+    public EnemyInfo GetEnemyInfo(int id)
     {
-        if (FireBaseDict.ContainsKey(key))
+        if (LocalDict.ContainsKey(id))
         {
-            return FireBaseDict[key];
+            return LocalDict[id];
         }
         else
+        {
+            Debug.LogWarning($"ID {id}에 해당하는 EnemyInfo가 없습니다.");
             return null;
+        }
     }
 }
