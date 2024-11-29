@@ -10,30 +10,44 @@ public class FireBaseDataManager : MonoBehaviour
 {
     private DatabaseReference databaseReference;
 
+    // 게임 입장 시 한번만 처리를 위한 싱글톤
+    public static FireBaseDataManager instance { get; private set; }
+    private bool isFirebaseLoad = false;
+
     public Dictionary<int, EnemyInfo> FireBaseDict = new Dictionary<int, EnemyInfo>();
 
     private async void Awake()
     {
-        var dependencyTask = await FirebaseApp.CheckAndFixDependenciesAsync();
-
-        if (dependencyTask == DependencyStatus.Available)
+        if(instance == null)
         {
-            Debug.Log("Firebase 초기화 성공");
-            databaseReference = FirebaseDatabase.DefaultInstance.RootReference;
+            instance = this;
+            DontDestroyOnLoad(this);
 
-            try
+            if (!isFirebaseLoad)
             {
-                await LoadFireBaseEnemyData();
-                await SaveFirebaseDataToLocalJson();
+                var dependencyTask = await FirebaseApp.CheckAndFixDependenciesAsync();
+
+                if (dependencyTask == DependencyStatus.Available)
+                {
+                    databaseReference = FirebaseDatabase.DefaultInstance.RootReference;
+
+                    try
+                    {
+                        await LoadFireBaseEnemyData();
+                        await SaveFirebaseDataToLocalJson();
+                    }
+                    catch (System.Exception ex)
+                    {
+                        Debug.LogError($"Firebase 데이터 로드 또는 처리 실패: {ex.Message}");
+                    }
+                }
+                else
+                {
+                    Debug.LogError($"Firebase 초기화 실패: {dependencyTask}");
+                }
+
+                isFirebaseLoad = true;
             }
-            catch (System.Exception ex)
-            {
-                Debug.LogError($"Firebase 데이터 로드 또는 처리 실패: {ex.Message}");
-            }
-        }
-        else
-        {
-            Debug.LogError($"Firebase 초기화 실패: {dependencyTask}");
         }
     }
 

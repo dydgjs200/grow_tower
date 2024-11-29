@@ -4,14 +4,14 @@ public class EnemyFactory
 {
     public static GameObject CreateEnemy(int ID, Transform SpwanPoint)
     {
-        if (EnemyDataManager.Instance == null)
+        if (LocalDataManager.Instance == null)
         {
             Debug.LogError("EnemyDataManager.Instance가 null입니다. 팩토리를 사용할 수 없습니다.");
             return null;
         }
 
         // Prefab 가져오기
-        GameObject prefab = EnemyDataManager.Instance.GetEnemyPrefab(ID);
+        GameObject prefab = LocalDataManager.Instance.GetEnemyPrefab(ID);
         if (prefab == null)
         {
             Debug.LogWarning($"ID {ID}에 해당하는 Prefab을 찾을 수 없습니다.");
@@ -19,7 +19,7 @@ public class EnemyFactory
         }
 
         // EnemyInfo 가져오기
-        EnemyInfo info = EnemyDataManager.Instance.GetEnemyInfo(ID);
+        EnemyInfo info = LocalDataManager.Instance.GetEnemyInfo(ID);
         if (info == null)
         {
             Debug.LogWarning($"ID {ID}에 해당하는 EnemyInfo를 찾을 수 없습니다.");

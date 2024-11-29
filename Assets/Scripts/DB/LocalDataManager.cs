@@ -6,9 +6,9 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 
 [System.Serializable]
-public class EnemyDataManager : MonoBehaviour
+public class LocalDataManager : MonoBehaviour
 {
-    public static EnemyDataManager Instance { get; private set; }
+    public static LocalDataManager Instance { get; private set; }
     public Dictionary<int, EnemyInfo> LocalDict = new Dictionary<int, EnemyInfo>();
     public Dictionary<int, GameObject> enemyPrefabs = new Dictionary<int, GameObject>();
 
