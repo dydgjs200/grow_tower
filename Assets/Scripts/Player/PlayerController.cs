@@ -10,8 +10,23 @@ public class PlayerController : MonoBehaviour
     float growIntersectionRate;
     float growBulletSpeed;
 
+    // Player info
+    public float HP;
+    public float Damage;
+    public float AttackSpeed;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    private void Awake()
+    {
+
+        if (LocalPlayerDataManager.Instance == null)
+        {
+            Debug.LogError("LocalPlayerDataManager.Instance가 null입니다.");
+            return;
+        }
+        CreatePlayer("admin");
+    }
+
     void Start()
     {
         intersection_time = 0;
@@ -25,6 +40,36 @@ public class PlayerController : MonoBehaviour
     {
         GrowIntersection();
         ShootPlayerBullet();
+    }
+
+    public virtual void InitializedPlayer(PlayerInfo info)
+    {
+        HP = info.HP;
+        Damage = info.Damage;
+        AttackSpeed = info.AttackSpeed;
+    }
+
+    public void CreatePlayer(string id)
+    {
+        PlayerInfo playerinfo = LocalPlayerDataManager.Instance.GetPlayerInfo(id);
+        GameObject playerPrefab = LocalPlayerDataManager.Instance.PlayerPrefab;
+
+        if (playerPrefab == null)
+        {
+            Debug.LogError("PlayerPrefab이 null입니다. LocalPlayerDataManager에서 확인하세요.");
+            return;
+        }
+
+        if (playerinfo == null)
+        {
+            Debug.LogError($"PlayerInfo가 null입니다. ID: {id}에 해당하는 정보가 없습니다.");
+            return;
+        }
+
+        Debug.Log($"PlayerPrefab: {playerPrefab.name}, PlayerInfo: {playerinfo}");
+
+        GameObject.Instantiate(playerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        InitializedPlayer(playerinfo);
     }
 
     void GrowIntersection()

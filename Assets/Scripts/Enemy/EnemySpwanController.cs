@@ -15,7 +15,7 @@ public class EnemySpwanController : MonoBehaviour
     void Update()
     {
         // 랜덤으로 적을 생성
-        EnemySpwan(Random.Range(0, LocalDataManager.Instance.LocalDict.Count));
+        EnemySpwan(Random.Range(0, LocalEnemyDataManager.Instance.LocalDict.Count));
     }
 
     public void EnemySpwan(int enemyIndex)
