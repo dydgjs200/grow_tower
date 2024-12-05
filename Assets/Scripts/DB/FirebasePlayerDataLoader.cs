@@ -8,7 +8,6 @@ public class FirebasePlayerDataLoader : MonoBehaviour
 {
     public GameObject playerPrefab; // 준비된 프리팹
 
-
     void Start()
     {
         FirebaseDatabase.DefaultInstance.GetReference("players").GetValueAsync().ContinueWithOnMainThread(task =>
@@ -35,10 +34,14 @@ public class FirebasePlayerDataLoader : MonoBehaviour
         });
     }
 
-    void CreatePlayer(float HP, float Damage, float AttackSpeed)
+    void CreatePlayer(float HP, float Damage, float AttackSpeed)            // 플레이어 생성 및 플레이어 컨트롤러 추가
     {
-        Debug.Log("Create Player");
         GameObject newPlayer = Instantiate(playerPrefab, new Vector3(0, 0 ,0), Quaternion.identity);
-        PlayerController playerScript = newPlayer.GetComponent<PlayerController>();
+        PlayerController playerController = newPlayer.GetComponent<PlayerController>();
+
+        if(newPlayer != null)
+        {
+            playerController.InitializedPlayer(HP, Damage, AttackSpeed);
+        }
     }
 }

@@ -22,12 +22,15 @@ public class EnemySpwanController : MonoBehaviour
 
     public void EnemySpwan(int enemyIndex)
     {
-        if (enemyCount == 20)
+        if (enemyCount == 5)            // 적 최대 생성갯수
+            return;
+
+        if (!GameObject.FindWithTag("Player"))      // player가 없을 시 스폰 종료
             return;
 
         time += Time.deltaTime;
 
-        if (time > 0.3f)
+        if (time > 0.3f)        // 적 생성 딜레이
         {
             int randomSpwanIndex = Random.Range(0, enemySpwaner.Length);
             Transform spawnPoint = enemySpwaner[randomSpwanIndex];

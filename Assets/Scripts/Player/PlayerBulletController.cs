@@ -14,9 +14,10 @@ public class PlayerBulletController : MonoBehaviour
     void Update()
     {
         MoveBullet();
+        FindEnemyAndStopShooting();
     }
 
-    void MoveBullet()
+    void MoveBullet()       // 찾은 적을 향해 총알 발사
     {
         if (target != null)
         {
@@ -33,13 +34,9 @@ public class PlayerBulletController : MonoBehaviour
                 Destroy(gameObject);        // 총알 파괴
             }
         }
-        else
-        {
-            Destroy(gameObject); // 5초 후 자동 파괴
-        }
     }
 
-    void FindClosesetEnemy()
+    void FindClosesetEnemy()        // player와 가장 근접한 적 찾음
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         float closeDistance = Mathf.Infinity;
@@ -56,5 +53,13 @@ public class PlayerBulletController : MonoBehaviour
 
         if (target != null)
             return;
+    }
+
+    void FindEnemyAndStopShooting()     // 적이 없을 시 총알 오브젝트 파괴
+    {
+        if (GameObject.FindGameObjectsWithTag("Enemy").Length == 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }

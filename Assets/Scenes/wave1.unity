@@ -677,8 +677,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd812c7813bee8d4583c96929e4eeecb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  circleCollider: {fileID: 0}
-  playerBullet: {fileID: 0}
+  playerBullet: {fileID: 2188742405535462654, guid: 2ae3b50eecf45e540aea148fec74d981, type: 3}
 --- !u!4 &1108810464 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4235714699340978339, guid: d2088ec8d1c7ec142bc2b55baf22dee1, type: 3}
