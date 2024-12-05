@@ -285,6 +285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 599d541c35310d04482145c1e77d0d60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jsonPath: 
   enemyPrefabsArray:
   - {fileID: 7997236345592181297, guid: a532531bf631bf7438f1e064fe8f4fbc, type: 3}
   - {fileID: 1352860518001478146, guid: 5c13fdb4f0ee8fc439e0440d44d71d2c, type: 3}
@@ -633,50 +634,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!1 &919167433
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 919167435}
-  - component: {fileID: 919167434}
-  m_Layer: 0
-  m_Name: FireBaseKeyManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &919167434
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919167433}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cab82f57f424a4b4c9f14f217070b558, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &919167435
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919167433}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.87192917, y: -0.18723212, z: -0.07106937}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1690495353
 GameObject:
   m_ObjectHideFlags: 0
@@ -988,5 +945,4 @@ SceneRoots:
   - {fileID: 160785768}
   - {fileID: 741938136}
   - {fileID: 1690495356}
-  - {fileID: 919167435}
   - {fileID: 257679313}

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class EnemySpwanController : MonoBehaviour
@@ -17,6 +18,7 @@ public class EnemySpwanController : MonoBehaviour
         // 랜덤으로 적을 생성
         EnemySpwan(Random.Range(0, LocalEnemyDataManager.Instance.LocalDict.Count));
     }
+
 
     public void EnemySpwan(int enemyIndex)
     {
