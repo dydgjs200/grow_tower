@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1993804431115776632}
   - component: {fileID: -1993654310609188267}
   - component: {fileID: 4986018004352256156}
-  - component: {fileID: 5423041385943504888}
+  - component: {fileID: 40008412631034959}
   m_Layer: 0
   m_Name: enemy0
   m_TagString: Enemy
@@ -176,11 +176,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b83ec0a0cee52c40b5dcc75b66254d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0
   player: {fileID: 0}
   target: {fileID: 0}
   rg2D: {fileID: 0}
-  ID: 0
   Name: 
   Melee: 0
   HP: 0
@@ -188,7 +186,8 @@ MonoBehaviour:
   Armor: 0
   Magic_resist: 0
   Speed: 0
---- !u!114 &5423041385943504888
+  healthComponent: {fileID: 0}
+--- !u!114 &40008412631034959
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -197,18 +196,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7997236345592181297}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebc932e5c0394104383849dfc3b1ab3c, type: 3}
+  m_Script: {fileID: 11500000, guid: 397827a7a3c59d547b768f94fb5984fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0
-  player: {fileID: 0}
-  target: {fileID: 0}
-  rg2D: {fileID: 0}
-  ID: 0
-  Name: 
-  Melee: 0
-  HP: 0
-  Damage: 0
-  Armor: 0
-  Magic_resist: 0
-  Speed: 0
+  maxHP: 0
+  currentHP: 0
+  time: 0

@@ -26,13 +26,6 @@ public class PlayerBulletController : MonoBehaviour
 
             // 총알 이동
             transform.Translate(direction * speed * Time.deltaTime, Space.World);
-
-            // 목표에 도달했는지 확인 (거리 기준)
-            if (Vector3.Distance(transform.position, target.position) < 0.01f)
-            {
-                Destroy(target.gameObject); // 목표 오브젝트 파괴
-                Destroy(gameObject);        // 총알 파괴
-            }
         }
     }
 
@@ -62,4 +55,13 @@ public class PlayerBulletController : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy"))
+        {
+            Destroy(gameObject);
+        }
+    }
+
 }

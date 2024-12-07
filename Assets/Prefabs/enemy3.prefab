@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3556167659388122434}
   - component: {fileID: 4217880997189608700}
   - component: {fileID: 1098119308387994801}
+  - component: {fileID: 16834909276067942}
   m_Layer: 0
   m_Name: enemy3
   m_TagString: Enemy
@@ -102,11 +103,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b83ec0a0cee52c40b5dcc75b66254d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0
   player: {fileID: 0}
   target: {fileID: 0}
   rg2D: {fileID: 0}
-  ID: 0
   Name: 
   Melee: 0
   HP: 0
@@ -114,6 +113,7 @@ MonoBehaviour:
   Armor: 0
   Magic_resist: 0
   Speed: 0
+  healthComponent: {fileID: 0}
 --- !u!61 &4217880997189608700
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -144,7 +144,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -187,3 +187,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &16834909276067942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7323160959671013364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 397827a7a3c59d547b768f94fb5984fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 0
+  currentHP: 0
+  time: 0

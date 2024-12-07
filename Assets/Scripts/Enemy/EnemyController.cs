@@ -15,9 +15,19 @@ public class EnemyController : MonoBehaviour
     public float Magic_resist;
     public float Speed;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    //Component
+    public HealthComponent healthComponent;
+
+    private void Awake()
+    {
+        healthComponent = GetComponent<HealthComponent>();
+    }
+
+
     void Start()
     {
+        healthComponent.InitializedHP(HP);
+
         player = GameObject.FindWithTag("Player");
         rg2D = GetComponent<Rigidbody2D>();
         target = player.transform;
@@ -58,16 +68,15 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    protected virtual void Die(int takeDamage) {
-        if (takeDamage >= HP)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            HP -= takeDamage;
-        }
-    }
     public virtual void Attack() { }
     public virtual void SkillAttack() { }
+
+    private void OnTriggerEnter2D(Collider2D collision)         // 플레이어 bullet과 충돌했을 때 데미지 입음.
+    {
+        if (collision.CompareTag("PlayerBullet"))
+        {
+            healthComponent.TakeDamage(50);     // 플레이어의 공격 임시값 50
+        }
+    }
+
 }

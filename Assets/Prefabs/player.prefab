@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 7633703604970700640}
   - component: {fileID: 7871330857719415899}
   - component: {fileID: 7535462643623984020}
-  - component: {fileID: 213461845989039987}
   - component: {fileID: 981000070953688609}
+  - component: {fileID: 213461845989039987}
+  - component: {fileID: -516459653951830520}
   m_Layer: 0
   m_Name: player
   m_TagString: Player
@@ -117,24 +118,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &213461845989039987
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 393169704202840379}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd812c7813bee8d4583c96929e4eeecb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  circleCollider: {fileID: 981000070953688609}
-  playerBullet: {fileID: 2188742405535462654, guid: 2ae3b50eecf45e540aea148fec74d981, type: 3}
-  id: admin
-  HP: 0
-  Damage: 0
-  AttackSpeed: 0
 --- !u!58 &981000070953688609
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -169,5 +152,35 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.00000011920929}
-  m_Radius: 1.6512264
+  m_Offset: {x: -0.00000029802322, y: -0.00000011920929}
+  m_Radius: 0.49966556
+--- !u!114 &213461845989039987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 393169704202840379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd812c7813bee8d4583c96929e4eeecb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerBullet: {fileID: 2188742405535462654, guid: 2ae3b50eecf45e540aea148fec74d981, type: 3}
+  healthComponent: {fileID: 0}
+  rg2D: {fileID: 0}
+--- !u!114 &-516459653951830520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 393169704202840379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 397827a7a3c59d547b768f94fb5984fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 0
+  currentHP: 0
+  time: 0
