@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    public GameObject player;
-    public Transform target;
     public Rigidbody2D rg2D;
 
     // Enemy Info
@@ -13,30 +11,41 @@ public class EnemyController : MonoBehaviour
     public float Damage;
     public float Armor;
     public float Magic_resist;
+    public float AttackSpeed;
     public float Speed;
+    public float Distance;
 
     //Component
     public HealthComponent healthComponent;
+    public MoveComponent moveComponent;
+    public AttackComponent attackComponent;
+
+    //Bullet
+    public GameObject EnemyBullet;
 
     private void Awake()
     {
         healthComponent = GetComponent<HealthComponent>();
+        moveComponent = GetComponent<MoveComponent>();
+        attackComponent = GetComponent<AttackComponent>();
+
+        rg2D = GetComponent<Rigidbody2D>();
     }
 
 
     void Start()
     {
         healthComponent.InitializedHP(HP);
-
-        player = GameObject.FindWithTag("Player");
-        rg2D = GetComponent<Rigidbody2D>();
-        target = player.transform;
+        moveComponent.InitializedDistance(Distance, Speed);
+        attackComponent.InitializedAttack(Damage, AttackSpeed, EnemyBullet);
     }
 
     // Update is called once per frame
     void Update()
     {
-        MoveEnemy();
+        MoveEnemyToPlayer();
+        AttackCoolDown();
+        
     }
 
     public virtual void InitializeEnemy(EnemyInfo info)
@@ -50,26 +59,20 @@ public class EnemyController : MonoBehaviour
         Damage = info.Damage;
         Armor = info.Armor;
         Magic_resist = info.Magic_resist;
+        AttackSpeed = info.AttackSpeed;
         Speed = info.Speed;
+        Distance = info.distance;
     }
 
-    void MoveEnemy()
+    public void AttackCoolDown()
     {
-        // 목표와의 거리 계산
-        float distance = Vector3.Distance(transform.position, target.position);
-
-        if (distance > 0.8f) // 최소 거리 설정
-        {
-            // 목표 방향 계산
-            Vector3 dir = (target.position - transform.position).normalized;
-
-            // Rigidbody를 사용해 이동
-            rg2D.MovePosition(transform.position + dir * Speed * Time.deltaTime);
-        }
+        attackComponent.AttackCoolDown(AttackSpeed);
     }
 
-    public virtual void Attack() { }
-    public virtual void SkillAttack() { }
+    public void MoveEnemyToPlayer()
+    {
+        moveComponent.MoveEnemyToPlayer();
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)         // 플레이어 bullet과 충돌했을 때 데미지 입음.
     {

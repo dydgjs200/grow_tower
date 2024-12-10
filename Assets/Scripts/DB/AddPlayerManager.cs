@@ -31,7 +31,7 @@ public class AddPlayerManager : MonoBehaviour
         {
             var players = new Dictionary<string, PlayerInfo>();
         {
-                players.Add("admin", new PlayerInfo(100, 10, 10));
+                players.Add("admin", new PlayerInfo(100, 10, 0.5f));
         };
 
             string json = JsonConvert.SerializeObject(players, Formatting.Indented);

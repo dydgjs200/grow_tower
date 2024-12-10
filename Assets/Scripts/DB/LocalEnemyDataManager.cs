@@ -34,7 +34,7 @@ public class LocalEnemyDataManager : MonoBehaviour
         crypto = new AESCrypto();
         jsonPath = Path.Combine(Application.persistentDataPath, "grow_tower_enemies.json");
 
-        //SaveEnemyData(); -> 데이터 추가할 때만..
+        SaveEnemyData(); // -> 데이터 추가할 때만..
     }
 
     private void Start()
@@ -86,7 +86,7 @@ public class LocalEnemyDataManager : MonoBehaviour
             // 로그로 데이터 출력
             foreach (var enemy in enemies)
             {
-                Debug.Log($"이름: {enemy.Name}, HP: {enemy.HP}, 공격력: {enemy.Damage}");
+                Debug.Log($"이름: {enemy.Name}, HP: {enemy.HP}, 공격력: {enemy.Damage}, 사거리 : {enemy.distance}");
             }
 
             Debug.Log("적 데이터가 성공적으로 로드되었습니다.");
@@ -107,9 +107,9 @@ public class LocalEnemyDataManager : MonoBehaviour
         // 예시 적 데이터 생성
         List<EnemyInfo> enemies = new List<EnemyInfo>
     {
-        new EnemyInfo("Goblin", true, 100f, 10f, 5f, 2f, 1.5f),
-        new EnemyInfo("Dragon", false, 300f, 50f, 20f, 10f, 0.8f),
-        new EnemyInfo("Orc", true, 200f, 30f, 10f, 5f, 1.2f)
+        new EnemyInfo("Goblin", true, 100f, 10f, 5f, 2f, 2f, 1.5f, 1f),
+        new EnemyInfo("Dragon", false, 300f, 50f, 20f, 10f, 5f, 0.8f, 2f),
+        new EnemyInfo("Orc", true, 200f, 30f, 10f, 5f, 0.3f, 1.2f, 3f)
     };
 
         // 데이터 저장 호출

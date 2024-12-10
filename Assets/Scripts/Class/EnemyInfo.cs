@@ -9,9 +9,11 @@ public class EnemyInfo
     public float Damage { get; set; }
     public float Armor { get; set; }
     public float Magic_resist { get; set; }
+    public float AttackSpeed { get; set; }
     public float Speed { get; set; }
+    public float distance { get; set; }
 
-    public EnemyInfo(string name, bool melee, float hp, float damage, float armor, float magicResist, float speed)
+    public EnemyInfo(string name, bool melee, float hp, float damage, float armor, float magicResist, float attackSpeed, float speed, float dist)
     {
         Name = name;
         Melee = melee;
@@ -19,6 +21,8 @@ public class EnemyInfo
         Damage = damage;
         Armor = armor;
         Magic_resist = magicResist;
+        AttackSpeed = attackSpeed;
         Speed = speed;
+        distance = dist;
     }
 }

@@ -10,11 +10,10 @@ public class PlayerController : MonoBehaviour
 
     // 총알 오브젝트
     public GameObject playerBullet;
-    float shoot_time;
-    float growBulletSpeed;
 
     // 컴포넌트 관리
     public HealthComponent healthComponent;     //체력 시스템
+    public AttackComponent attackComponent;
 
     //충돌처리
     public Rigidbody2D rg2D;
@@ -23,17 +22,18 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         healthComponent = GetComponent<HealthComponent>();
+        attackComponent = GetComponent<AttackComponent>();
         rg2D = GetComponent<Rigidbody2D>();
     }
 
     void Start()
     {
-        growBulletSpeed = 1.0f;
+        
     }
 
     void Update()
     {
-        ShootPlayerBullet();
+        AttackCoolDown();
     }
 
     public void InitializedPlayer(string playerId, float hp, float damage, float attackSpeed)
@@ -44,19 +44,13 @@ public class PlayerController : MonoBehaviour
         AttackSpeed = attackSpeed;
 
         healthComponent.InitializedHP(HP);
+        attackComponent.InitializedAttack(Damage, AttackSpeed, playerBullet);
+        Debug.Log($"Init Player > {playerId}, {damage}, {attackSpeed}");
     }
 
-    void ShootPlayerBullet()
+    public void AttackCoolDown()
     {
-        shoot_time += Time.deltaTime;
-
-        if (shoot_time >= growBulletSpeed)
-        {
-            if (GameObject.FindWithTag("Enemy"))
-                Instantiate(playerBullet, transform.position, Quaternion.identity);
-
-            shoot_time -= growBulletSpeed;
-        }
+        attackComponent.AttackCoolDown(AttackSpeed);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
