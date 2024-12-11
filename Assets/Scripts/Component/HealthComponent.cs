@@ -5,6 +5,15 @@ public class HealthComponent : MonoBehaviour
     [SerializeField] private float maxHP;
     public float currentHP;
 
+    private PlayerController playerController;
+    private EnemyController enemyController;
+
+    private void Awake()
+    {
+        playerController = GetComponent<PlayerController>();
+        enemyController = GetComponent<EnemyController>();
+    }
+
     void Start()
     {
         
@@ -31,8 +40,14 @@ public class HealthComponent : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, string type)       // type = player or enemy
     {
         currentHP -= damage;
+
+        if (playerController != null && type == "player")
+            playerController.UpdateHP(currentHP);
+        if (enemyController != null && type == "enemy")
+            enemyController.UpdateHP(currentHP);
+
     }
 }

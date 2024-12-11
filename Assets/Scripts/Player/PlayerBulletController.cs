@@ -2,9 +2,16 @@ using UnityEngine;
 
 public class PlayerBulletController : MonoBehaviour
 {
-    public float speed = 10.0f;
+    public float Damage;
+    public float BulletSpeed = 10.0f;           // 임시 총알 속도 -> AttackSpeed는 발사 간격이므로 다름!!
+
     private Transform target;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    private void Awake()
+    {
+        Damage = GetComponentInParent<PlayerController>().Damage;
+    }
+
     void Start()
     {
         FindClosesetEnemy();
@@ -25,7 +32,7 @@ public class PlayerBulletController : MonoBehaviour
             Vector3 direction = (target.position - transform.position).normalized;
 
             // 총알 이동
-            transform.Translate(direction * speed * Time.deltaTime, Space.World);
+            transform.Translate(direction * BulletSpeed * Time.deltaTime, Space.World);
         }
     }
 
@@ -60,6 +67,12 @@ public class PlayerBulletController : MonoBehaviour
     {
         if (collision.CompareTag("Enemy"))
         {
+            HealthComponent health = collision.GetComponent<HealthComponent>();
+            
+            if(health != null)
+            {
+                health.TakeDamage(Damage, "enemy");
+            }
             Destroy(gameObject);
         }
     }

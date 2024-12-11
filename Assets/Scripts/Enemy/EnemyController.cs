@@ -64,22 +64,19 @@ public class EnemyController : MonoBehaviour
         Distance = info.distance;
     }
 
-    public void AttackCoolDown()
+    public void AttackCoolDown()            // 공격 쿨타임
     {
         attackComponent.AttackCoolDown(AttackSpeed);
     }
 
-    public void MoveEnemyToPlayer()
+    public void MoveEnemyToPlayer()     // 플레이어에게 이동
     {
         moveComponent.MoveEnemyToPlayer();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)         // 플레이어 bullet과 충돌했을 때 데미지 입음.
+    public void UpdateHP(float currentHP)
     {
-        if (collision.CompareTag("PlayerBullet"))
-        {
-            healthComponent.TakeDamage(50);     // 플레이어의 공격 임시값 50
-        }
+        HP = currentHP;
+        Debug.Log($"Enemy HP updated: {HP}");
     }
-
 }

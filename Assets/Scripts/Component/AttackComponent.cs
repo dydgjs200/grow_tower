@@ -39,7 +39,7 @@ public class AttackComponent : MonoBehaviour
         {
             if (GameObject.FindWithTag(targetTag))
             {
-                Instantiate(Bullet, transform.position, Quaternion.identity);
+                Instantiate(Bullet, transform.position, Quaternion.identity, transform);
             }
 
             time -= AttackSpeed;

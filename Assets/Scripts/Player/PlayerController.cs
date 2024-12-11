@@ -53,18 +53,10 @@ public class PlayerController : MonoBehaviour
         attackComponent.AttackCoolDown(AttackSpeed);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void UpdateHP(float currentHP)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            Debug.Log("플레이어와 적 충돌!");
-            TakeDamage(10);
-        }
-    }
-
-    public void TakeDamage(float damage)
-    {
-        healthComponent.TakeDamage(damage);
-        PlayerLocalCache.Instance.SetPlayerData(PlayerId, "HP", HP);
+        HP = currentHP;
+        PlayerLocalCache.Instance.SetPlayerData(PlayerId, "HP", HP); // 캐시에 업데이트
+        Debug.Log($"Player HP updated: {HP}");
     }
 }
