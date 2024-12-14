@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class ControllerBottomPanel : MonoBehaviour
 {
@@ -14,24 +15,25 @@ public class ControllerBottomPanel : MonoBehaviour
     {
         modelModal = new ModelModal();
 
-        viewBottomPanel.Bottom_Upgrade.onClick.AddListener(() => OnButtonClick("You clicked Up!"));
-        viewBottomPanel.Bottom_Skill.onClick.AddListener(() => OnButtonClick("You clicked Skill!"));
-        viewBottomPanel.Bottom_Equipment.onClick.AddListener(() => OnButtonClick("You clicked Equip!"));
-        viewBottomPanel.Bottom_Store.onClick.AddListener(() => OnButtonClick("You clicked Store!"));
+        viewBottomPanel.Bottom_Upgrade.onClick.AddListener(() => OnButtonClick("Upgrade"));
+        viewBottomPanel.Bottom_Skill.onClick.AddListener(() => OnButtonClick("Skill"));
+        viewBottomPanel.Bottom_Equipment.onClick.AddListener(() => OnButtonClick("Equipment"));
+        viewBottomPanel.Bottom_Store.onClick.AddListener(() => OnButtonClick("Store"));
 
         viewModal.CloseButton.onClick.AddListener(() => OnCloseButtonClick());
     }
 
-    private void OnButtonClick(string content)
+    private void OnButtonClick(string tabType)      // up, skill, equip, store
     {
         if (viewModal == null)
         {
             Debug.LogError("viewModal is null in ControllerBottomPanel!");
             return;
         }
-        modelModal.Content = content;
 
-        viewModal.showModal(content);
+        List<string> tabData = modelModal.GetTabData(tabType);
+
+        viewModal.showModal(tabData);
     }
 
     private void OnCloseButtonClick()
