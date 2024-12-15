@@ -1,0 +1,60 @@
+{
+  "Stats": [
+    {
+      "Name": "일반공격력 증가",
+      "Variable": "Normal_Attack",
+      "Type": "float",
+      "Description": "일반공격력이 증가합니다.",
+      "Increment": null
+    },
+    {
+      "Name": "공격속도 증가",
+      "Variable": "Attack_Speed",
+      "Type": "float",
+      "Description": "공격속도가 증가합니다.",
+      "Increment": null
+    },
+    {
+      "Name": "크리티컬 확률",
+      "Variable": "Critical_Prob",
+      "Type": "float",
+      "Description": "크리티컬 확률이 증가합니다.",
+      "Increment": 0.1
+    },
+    {
+      "Name": "크리티컬 데미지",
+      "Variable": "Critical_Dam",
+      "Type": "float",
+      "Description": "크리티컬 데미지가 증가합니다. (배율)",
+      "Increment": 0.2
+    },
+    {
+      "Name": "추가데미지 확률",
+      "Variable": "Addition_Prob",
+      "Type": "float",
+      "Description": "추가데미지 확률이 증가합니다.",
+      "Increment": 0.1
+    },
+    {
+      "Name": "추가데미지 증가",
+      "Variable": "Addition_Dam",
+      "Type": "float",
+      "Description": "추가데미지가 증가합니다. (배율)",
+      "Increment": 0.5
+    },
+    {
+      "Name": "도트데미지 확률",
+      "Variable": "Dot_Prob",
+      "Type": "float",
+      "Description": "도트데미지 확률이 증가합니다.",
+      "Increment": 0.5
+    },
+    {
+      "Name": "도트데미지 증가",
+      "Variable": "Dot_Dam",
+      "Type": "float",
+      "Description": "도트데미지가 증가합니다. (절대 대공격)",
+      "Increment": 1
+    }
+  ]
+}

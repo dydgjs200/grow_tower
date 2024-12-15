@@ -15,6 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/wave2.unity
     guid: cd4792e77606ed54db51b6b3ca98f90d
   m_configObjects:
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: e7f7ba35f0fe1c84e8b46660f6dcddc9, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 1b067dc33e6d0594da4258df4a89b5c5, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

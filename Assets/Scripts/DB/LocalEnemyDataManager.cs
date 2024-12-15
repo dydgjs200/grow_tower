@@ -12,8 +12,6 @@ public class LocalEnemyDataManager : MonoBehaviour
     public Dictionary<int, EnemyInfo> LocalDict = new Dictionary<int, EnemyInfo>();
     public Dictionary<int, GameObject> enemyPrefabs = new Dictionary<int, GameObject>();
 
-    // 암호화 관련
-    private AESCrypto crypto;
     public string jsonPath;
 
     public GameObject[] enemyPrefabsArray;
@@ -30,11 +28,9 @@ public class LocalEnemyDataManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        jsonPath = Path.Combine(Application.streamingAssetsPath, "grow_tower_enemies.json");
 
-        crypto = new AESCrypto();
-        jsonPath = Path.Combine(Application.persistentDataPath, "grow_tower_enemies.json");
-
-        SaveEnemyData(); // -> 데이터 추가할 때만..
+        //SaveEnemyData(); // -> 데이터 추가할 때만..
     }
 
     private void Start()
@@ -48,11 +44,8 @@ public class LocalEnemyDataManager : MonoBehaviour
         // 데이터를 리스트로 직렬화
         string json = JsonConvert.SerializeObject(enemies, Formatting.Indented);
 
-        // JSON 문자열 암호화
-        string encryptedJson = crypto.EncryptString(json);
-
         // 암호화된 데이터 파일에 저장
-        File.WriteAllText(jsonPath, encryptedJson);
+        File.WriteAllText(jsonPath, json);
 
         Debug.Log("적 데이터가 성공적으로 저장되었습니다.");
     }
@@ -68,10 +61,7 @@ public class LocalEnemyDataManager : MonoBehaviour
         try
         {
             // 파일에서 암호화된 데이터 읽기
-            string encryptedJson = File.ReadAllText(jsonPath);
-
-            // 데이터를 복호화
-            string json = crypto.DecryptString(encryptedJson);
+            string json = File.ReadAllText(jsonPath);
 
             // JSON 문자열을 리스트로 역직렬화
             List<EnemyInfo> enemies = JsonConvert.DeserializeObject<List<EnemyInfo>>(json);

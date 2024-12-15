@@ -1,44 +1,49 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerSpawner : MonoBehaviour
 {
-    public GameObject playerPrefab;
-    public Vector3 spawnPosition;
+    public GameObject playerPrefab; // 프리팹
+    public Vector3 spawnPosition;  // 생성 위치
 
     private void Start()
     {
-        FirebaseDataLoader dataLoader = FindObjectOfType<FirebaseDataLoader>();
-        dataLoader.OnDataLoaded += OnPlayerDataLoaded;
-        dataLoader.LoadPlayerData();
-    }
+        PlayerManager playerManager = PlayerManager.Instance;
 
-    private void OnPlayerDataLoaded(Dictionary<string, Dictionary<string, object>> playersData)
-    {
-        PlayerLocalCache.Instance.InitializeCache(playersData);
-
-        foreach (var playerId in playersData.Keys)
+        if (playerManager != null)
         {
-            Dictionary<string, object> playerData = playersData[playerId];
+            // JSON 배열에서 첫 번째 플레이어 데이터를 가져와 생성
+            PlayerInfo playerData = playerManager.GetPlayerInfo(0); // Index 0
 
-            float hp = (float)playerData["HP"];
-            float damage = (float)playerData["Damage"];
-            float attackSpeed = (float)playerData["AttackSpeed"];
-
-            Debug.Log($"PlayerId > {playerId}");
-
-            CreatePlayer(playerId, hp, damage, attackSpeed);
+            if (playerData != null)
+            {
+                CreatePlayer(playerData.PlayerID, playerData.HP, playerData.Damage, playerData.AttackSpeed);
+            }
+            else
+            {
+                Debug.LogError("Player data could not be loaded.");
+            }
+        }
+        else
+        {
+            Debug.LogError("PlayerManager is not initialized!");
         }
     }
 
     private void CreatePlayer(string playerId, float hp, float damage, float attackSpeed)
     {
+        // 프리팹 생성
         GameObject newPlayer = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
         PlayerController playerController = newPlayer.GetComponent<PlayerController>();
 
         if (playerController != null)
         {
+            // PlayerController 초기화
             playerController.InitializedPlayer(playerId, hp, damage, attackSpeed);
+            Debug.Log($"Player {playerId} created successfully.");
+        }
+        else
+        {
+            Debug.LogError("PlayerController not found on the prefab.");
         }
     }
 }

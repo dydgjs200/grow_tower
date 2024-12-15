@@ -1,0 +1,8 @@
+[
+  {
+    "PlayerID": "admin",
+    "HP": 500000,
+    "Damage": 30,
+    "AttackSpeed": 0.5
+  }
+]
