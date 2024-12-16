@@ -9,38 +9,39 @@ public class ViewModal : MonoBehaviour
     public Button CloseButton;      // 모달창 닫기
     public Transform ModalBackground;   // 모달창 백그라운드
     public Transform ModalTabParent;          // 하단 탭버튼 부모패널
-    public GameObject DataPanel;    // 업그레이드 패널
     public GameObject TabButtonPrefabs;     // 하단 버튼 프리팹
 
     public GridLayoutGroup tabLayoutGroup; // 하단 탭의 레이아웃 그룹
 
+    public Transform DataPanelParent;   // data 부모패널
+    public GameObject DataPanel;    // json data 패널
+
+    private void Awake()
+    {
+        JsonLoader.Instance.LoadJson("upgrade.json");
+    }
 
     public void showModal(List<string> tabData)
     {
-        Debug.Log("showModal called");
-
         if (modal == null)
         {
-            Debug.LogError("Modal GameObject is not assigned in ViewModal!");
+            Debug.LogError("모달 오브젝트가 인스펙터와 연결되지 않았음.");
             return;
         }
 
-        UpgradeButton(ModalTabParent, tabData);
+        ModalTabButton(ModalTabParent, tabData);
         UpdateTabLayout(tabData.Count);
 
         modal.SetActive(true);
         Debug.Log("Modal is now active");
     }
 
-
     public void hideModal()
     {
         modal.SetActive(false);
     }
 
-    /// 탭 버튼 클릭 시 
-
-    public void UpgradeButton(Transform parent, List<string> data)
+    public void ModalTabButton(Transform parent, List<string> data)      // 탭 버튼 클릭 시
     {
         foreach(Transform child in parent)
         {
@@ -53,6 +54,46 @@ public class ViewModal : MonoBehaviour
             Text buttonText = button.GetComponentInChildren<Text>();
 
             buttonText.text = text;
+
+            // 버튼 프리팹에 클릭 이벤트 추가
+            Button buttonComponent = button.GetComponent<Button>();
+            if (buttonComponent != null)
+            {
+                buttonComponent.onClick.AddListener(() => OnTabButtonClick(text));
+            }
+        }
+    }
+
+    private void OnTabButtonClick(string buttonText)        // 모달 하단 탭버튼 클릭 시 이벤트
+    {
+        Debug.Log($"button Text {buttonText}");
+
+        foreach (Transform child in DataPanelParent)
+        {
+            Destroy(child.gameObject); // 기존 패널 제거
+        }
+
+        if (buttonText == "공격")
+        {
+            foreach (var attack in JsonLoader.Instance.RootData.AttackData)
+            {
+                Debug.Log($"{attack.Name} : {attack.Description}");
+                GameObject panel = GameObject.Instantiate(DataPanel, DataPanelParent);
+
+                if(panel != null)
+                {
+                    Text[] texts = panel.GetComponentsInChildren<Text>();
+
+                    foreach(Text text in texts)
+                    {
+                        if (text.name == "Name")
+                            text.text = attack.Name;
+                        else if (text.name == "description")
+                            text.text = attack.Description;
+                    }
+                }
+                
+            }
         }
     }
 
