@@ -2,6 +2,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.Collections;
 
 public class ViewModal : MonoBehaviour
 {
@@ -95,6 +96,28 @@ public class ViewModal : MonoBehaviour
                 
             }
         }
+        else if(buttonText == "¹æ¾î")
+        {
+            foreach(var def in JsonLoader.Instance.RootData.DefenseData)
+            {
+                Debug.Log($"{def.Name} : {def.Description}");
+                GameObject panel = GameObject.Instantiate(DataPanel, DataPanelParent);
+
+                if(panel != null)
+                {
+                    Text[] texts = panel.GetComponentsInChildren<Text>();
+
+                    foreach(Text text in texts)
+                    {
+                        if (text.name == "Name")
+                            text.text = def.Name;
+                        else if (text.name == "description")
+                            text.text = def.Description;
+                    }
+                }
+            }
+        }
+
     }
 
     private void UpdateTabLayout(int buttonCount)

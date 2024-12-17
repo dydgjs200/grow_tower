@@ -4,6 +4,8 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.IO;
 using System;
+using UnityEngine.Networking;
+using System.Collections;
 
 [System.Serializable]
 public class LocalEnemyDataManager : MonoBehaviour
@@ -12,9 +14,10 @@ public class LocalEnemyDataManager : MonoBehaviour
     public Dictionary<int, EnemyInfo> LocalDict = new Dictionary<int, EnemyInfo>();
     public Dictionary<int, GameObject> enemyPrefabs = new Dictionary<int, GameObject>();
 
-    public string jsonPath;
-
     public GameObject[] enemyPrefabsArray;
+
+    private string persistentPath;
+    private string streamingPath;
 
     private void Awake()
     {
@@ -28,9 +31,10 @@ public class LocalEnemyDataManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        jsonPath = Path.Combine(Application.streamingAssetsPath, "grow_tower_enemies.json");
 
-        //SaveEnemyData(); // -> 데이터 추가할 때만..
+        // 경로 초기화
+        persistentPath = Path.Combine(Application.persistentDataPath, "grow_tower_enemies.json");
+        streamingPath = Path.Combine(Application.streamingAssetsPath, "grow_tower_enemies.json");
     }
 
     private void Start()
@@ -38,48 +42,40 @@ public class LocalEnemyDataManager : MonoBehaviour
         LoadEnemyData();
     }
 
-
+    // 데이터 저장
     public void DataSave(List<EnemyInfo> enemies)
     {
-        // 데이터를 리스트로 직렬화
-        string json = JsonConvert.SerializeObject(enemies, Formatting.Indented);
-
-        // 암호화된 데이터 파일에 저장
-        File.WriteAllText(jsonPath, json);
-
-        Debug.Log("적 데이터가 성공적으로 저장되었습니다.");
-    }
-
-    public void DataLoad()
-    {
-        if (!File.Exists(jsonPath))
-        {
-            Debug.LogWarning("데이터 파일이 존재하지 않습니다!");
-            return;
-        }
-
         try
         {
-            // 파일에서 암호화된 데이터 읽기
-            string json = File.ReadAllText(jsonPath);
+            string json = JsonConvert.SerializeObject(enemies, Formatting.Indented);
+            File.WriteAllText(persistentPath, json);
+            Debug.Log("적 데이터가 성공적으로 저장되었습니다.");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"데이터 저장 중 오류 발생: {ex.Message}");
+        }
+    }
 
-            // JSON 문자열을 리스트로 역직렬화
-            List<EnemyInfo> enemies = JsonConvert.DeserializeObject<List<EnemyInfo>>(json);
+    // 데이터 로드
+    public void DataLoad()
+    {
+        if (File.Exists(persistentPath))
+        {
+            LoadFromPath(persistentPath);
+        }
+        else
+        {
+            StartCoroutine(LoadFromStreamingAssets());
+        }
+    }
 
-            // LocalDict 초기화
-            LocalDict.Clear();
-            for (int i = 0; i < enemies.Count; i++)
-            {
-                LocalDict.Add(i, enemies[i]);
-            }
-
-            // 로그로 데이터 출력
-            foreach (var enemy in enemies)
-            {
-                Debug.Log($"이름: {enemy.Name}, HP: {enemy.HP}, 공격력: {enemy.Damage}, 사거리 : {enemy.distance}");
-            }
-
-            Debug.Log("적 데이터가 성공적으로 로드되었습니다.");
+    private void LoadFromPath(string filePath)
+    {
+        try
+        {
+            string json = File.ReadAllText(filePath);
+            DeserializeAndLoad(json);
         }
         catch (Exception ex)
         {
@@ -87,39 +83,60 @@ public class LocalEnemyDataManager : MonoBehaviour
         }
     }
 
+    private IEnumerator LoadFromStreamingAssets()
+    {
+        UnityWebRequest request = UnityWebRequest.Get(streamingPath);
+        yield return request.SendWebRequest();
 
+        if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+        {
+            Debug.LogError($"StreamingAssets에서 파일을 불러오지 못했습니다: {request.error}");
+        }
+        else
+        {
+            string json = request.downloadHandler.text;
 
+            // 파일을 persistentDataPath로 복사
+            File.WriteAllText(persistentPath, json);
+            DeserializeAndLoad(json);
 
-    //save and Load
+            Debug.Log("StreamingAssets에서 데이터를 불러와 저장했습니다.");
+        }
+    }
 
+    private void DeserializeAndLoad(string json)
+    {
+        List<EnemyInfo> enemies = JsonConvert.DeserializeObject<List<EnemyInfo>>(json);
+
+        LocalDict.Clear();
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            LocalDict.Add(i, enemies[i]);
+        }
+
+        Debug.Log("적 데이터가 성공적으로 로드되었습니다.");
+    }
+
+    // 데이터 저장 및 불러오기 호출
     public void SaveEnemyData()
     {
-        // 예시 적 데이터 생성
         List<EnemyInfo> enemies = new List<EnemyInfo>
-    {
-        new EnemyInfo("Goblin", true, 100f, 10f, 5f, 2f, 2f, 1.5f, 1f),
-        new EnemyInfo("Dragon", false, 300f, 50f, 20f, 10f, 5f, 0.8f, 2f),
-        new EnemyInfo("Orc", true, 200f, 30f, 10f, 5f, 0.3f, 1.2f, 3f)
-    };
+        {
+            new EnemyInfo("Goblin", true, 100f, 10f, 5f, 2f, 2f, 1.5f, 1f),
+            new EnemyInfo("Dragon", false, 300f, 50f, 20f, 10f, 5f, 0.8f, 2f),
+            new EnemyInfo("Orc", true, 200f, 30f, 10f, 5f, 0.3f, 1.2f, 3f)
+        };
 
-        // 데이터 저장 호출
         DataSave(enemies);
-
         Debug.Log("Enemy 데이터가 저장되었습니다.");
     }
 
-
     public void LoadEnemyData()
     {
-        // 데이터 로드 호출
         DataLoad();
-
-        // Prefab 초기화
         InitializedPrefabs();
-
         Debug.Log("Enemy 데이터가 로드 및 Prefab이 초기화되었습니다.");
     }
-
 
     private void InitializedPrefabs()
     {
@@ -130,7 +147,6 @@ public class LocalEnemyDataManager : MonoBehaviour
         }
 
         int count = 0;
-
         foreach (var enemy in LocalDict)
         {
             if (count < enemyPrefabsArray.Length)
@@ -144,10 +160,8 @@ public class LocalEnemyDataManager : MonoBehaviour
                 break;
             }
         }
-
         Debug.Log("Prefabs가 성공적으로 초기화되었습니다.");
     }
-
 
     public GameObject GetEnemyPrefab(int id)
     {

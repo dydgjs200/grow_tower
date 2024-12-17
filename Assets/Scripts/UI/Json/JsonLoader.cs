@@ -1,5 +1,7 @@
-using System.IO;
 using UnityEngine;
+using UnityEngine.Networking;
+using System.Collections;
+using System.IO;
 
 public class JsonLoader : MonoBehaviour
 {
@@ -21,24 +23,31 @@ public class JsonLoader : MonoBehaviour
 
     public void LoadJson(string filePath)
     {
-        filePath = Path.Combine(Application.streamingAssetsPath, filePath);
-
-        if (!File.Exists(filePath))
-        {
-            Debug.LogError($"JSON 파일이 존재하지 않습니다: {filePath}");
-            RootData = null;
-            return;
-        }
-
-        string jsonData = File.ReadAllText(filePath);
-        Debug.Log($"Loaded JSON Data: {jsonData}"); // JSON 데이터 출력
-
-        RootData = JsonUtility.FromJson<Root>(jsonData);
-
-        if (RootData == null)
-        {
-            Debug.LogError("JSON 데이터를 파싱하는 데 실패했습니다.");
-        }
+        StartCoroutine(LoadJsonFromFile(filePath));
     }
 
+    private IEnumerator LoadJsonFromFile(string filePath)
+    {
+        string fullPath = Path.Combine(Application.streamingAssetsPath, filePath);
+
+        UnityWebRequest request = UnityWebRequest.Get(fullPath);
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+        {
+            Debug.LogError($"JSON 파일을 불러오는 데 실패했습니다: {request.error}");
+            RootData = null;
+        }
+        else
+        {
+            string jsonData = request.downloadHandler.text;
+            Debug.Log($"JSON 데이터 로드 성공: {jsonData}");
+            RootData = JsonUtility.FromJson<Root>(jsonData);
+
+            if (RootData == null)
+            {
+                Debug.LogError("JSON 데이터를 파싱하는 데 실패했습니다.");
+            }
+        }
+    }
 }

@@ -56,5 +56,28 @@
       "Description": "도트데미지가 증가합니다. (절대 대공격)",
       "Increment": 1
     }
+  ],
+  "DefenseData": [
+    {
+      "Name": "일반 방어력",
+      "Variable": "Normal_Def",
+      "Type": "float",
+      "Description": "일반 방어력 증가 (퍼센트)",
+      "Increment": 0.01
+    },
+    {
+      "Name": "마법 방어력",
+      "Variable": "Magic_Def",
+      "Type": "float",
+      "Description": "마법 방어력 증가 (퍼센트)",
+      "Increment": 0.05
+    },
+    {
+      "Name": "절대 방어력",
+      "Variable": "Absolute_Def",
+      "Type": "float",
+      "Description": "절대 방어력 증가",
+      "Increment": null
+    }
   ]
 }
