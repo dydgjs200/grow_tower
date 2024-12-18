@@ -22,24 +22,31 @@ public class EnemySpwanController : MonoBehaviour
 
     public void EnemySpwan(int enemyIndex)
     {
-        if (enemyCount == 30)            // 적 최대 생성갯수
+        if (enemyCount == 30) // 적 최대 생성갯수
             return;
 
-        if (!GameObject.FindWithTag("Player"))      // player가 없을 시 스폰 종료
+        if (!GameObject.FindWithTag("Player")) // player가 없을 시 스폰 종료
             return;
 
         time += Time.deltaTime;
 
-        if (time > 0.3f)        // 적 생성 딜레이
+        if (time > 0.3f) // 적 생성 딜레이
         {
-            int randomSpwanIndex = Random.Range(0, enemySpwaner.Length);
-            Transform spawnPoint = enemySpwaner[randomSpwanIndex];
+            if (!LocalEnemyDataManager.Instance.LocalDict.ContainsKey(enemyIndex))
+            {
+                Debug.LogWarning($"delog: No enemy data found for ID {enemyIndex}. Skipping spawn.");
+                return;
+            }
 
+            Transform spawnPoint = enemySpwaner[Random.Range(0, enemySpwaner.Length)];
             GameObject newEnemy = EnemyFactory.CreateEnemy(enemyIndex, spawnPoint);
 
-
-            time -= 0.3f;
-            enemyCount++;
+            if (newEnemy != null)
+            {
+                time -= 0.3f;
+                enemyCount++;
+            }
         }
     }
+
 }

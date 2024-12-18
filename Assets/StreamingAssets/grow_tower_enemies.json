@@ -31,5 +31,16 @@
     "AttackSpeed": 0.3,
     "Speed": 1.2,
     "distance": 3.0
+  },
+  {
+    "Name": "Ender",
+    "Melee": true,
+    "HP": 1000.0,
+    "Damage": 30.0,
+    "Armor": 10.0,
+    "Magic_resist": 5.0,
+    "AttackSpeed": 0.3,
+    "Speed": 1.2,
+    "distance": 3.0
   }
 ]

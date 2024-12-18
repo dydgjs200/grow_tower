@@ -74,7 +74,13 @@ public class PlayerManager : MonoBehaviour
 
             if (playerInfos != null && playerInfos.Count > 0)
             {
-                Debug.Log("Player data loaded successfully.");
+                // 테스트용으로 PlayerID를 admin으로 강제 설정
+                foreach (var playerInfo in playerInfos)
+                {
+                    playerInfo.PlayerID = "admin";
+                }
+
+                Debug.Log("Player data loaded successfully. PlayerID set to admin for testing.");
             }
             else
             {
@@ -86,6 +92,7 @@ public class PlayerManager : MonoBehaviour
             Debug.LogError($"Error loading player data: {ex.Message}");
         }
     }
+
 
     public void SavePlayerData()
     {
